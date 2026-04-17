@@ -1,29 +1,41 @@
-const service = require('./gacha-service');
+import service from './gacha-service';
 
-async function play(req,res,next){
-  try{
+async function play(req, res, next) {
+  try {
     const { userId, userName } = req.body;
 
-    const result = await service.play(userId,userName);
+    const result = await service.play(userId, userName);
 
     res.status(200).json({
-      message: result
+      message: result,
     });
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 }
 
-async function history(req,res,next){
-  try{
+async function history(req, res, next) {
+  try {
     const data = await service.history(req.params.userId);
     res.json(data);
-  }catch(err){
+  } catch (err) {
+    next(err);
+  }
+}
+async function prizes(req, res, next) {
+  try {
+    res.json(await service.prizes());
+  } catch (err) {
     next(err);
   }
 }
 
-module.exports = {
-  play,
-  history
-};
+async function winners(req, res, next) {
+  try {
+    res.json(await service.winners());
+  } catch (err) {
+    next(err);
+  }
+}
+
+export { play, history, prizes, winners };

@@ -5,8 +5,8 @@ const schema = new mongoose.Schema({
   quota: Number,
   winnerCount: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 
 module.exports = schema;

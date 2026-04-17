@@ -8,4 +8,6 @@ module.exports = (app) => {
 
   route.post('/', controller.play);
   route.get('/history/:userId', controller.history);
+  route.get('/prizes', controller.prizes);
+  route.get('/winners', controller.winners);
 };

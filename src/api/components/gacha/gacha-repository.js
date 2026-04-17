@@ -2,17 +2,17 @@ const { Gacha, Prize } = require('../../../models');
 
 async function getTodayCount(userId) {
   const start = new Date();
-  start.setHours(0,0,0,0);
+  start.setHours(0, 0, 0);
 
   return Gacha.countDocuments({
     userId,
-    createdAt: { $gte: start }
+    createdAt: { $gte: start },
   });
 }
 
 async function getAvailablePrize() {
   return Prize.find({
-    $expr: { $lt: ['$winnerCount', '$quota'] }
+    $expr: { $lt: ['$winnerCount', '$quota'] },
   });
 }
 
@@ -21,14 +21,21 @@ async function saveResult(data) {
 }
 
 async function addWinner(id) {
-  return Prize.updateOne(
-    { _id: id },
-    { $inc: { winnerCount: 1 } }
-  );
+  return Prize.updateOne({ _id: id }, { $inc: { winnerCount: 1 } });
 }
 
 async function getHistory(userId) {
   return Gacha.find({ userId });
+}
+
+async function getPrizes() {
+  return Prize.find();
+}
+
+async function getWinners() {
+  return Gacha.find({
+    prize: { $ne: null },
+  });
 }
 
 module.exports = {
@@ -36,5 +43,7 @@ module.exports = {
   getAvailablePrize,
   saveResult,
   addWinner,
-  getHistory
+  getHistory,
+  getPrizes,
+  getWinners,
 };
