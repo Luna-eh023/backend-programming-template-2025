@@ -1,6 +1,13 @@
+const mongoose = require('mongoose');
 const { env, port } = require('./core/config');
 const logger = require('./core/logger')('app');
 const server = require('./core/server');
+
+const gachaSchema = require('./gacha-schema');
+const prizeSchema = require('./prize-schema');
+
+const Gacha = mongoose.model('Gacha', gachaSchema);
+const Prize = mongoose.model('Prize', prizeSchema);
 
 const app = server.listen(port, (err) => {
   if (err) {
@@ -22,3 +29,8 @@ process.on('uncaughtException', (err) => {
   setTimeout(() => process.abort(), 1000).unref();
   process.exit(1);
 });
+
+module.exports = {
+  Gacha,
+  Prize,
+};
